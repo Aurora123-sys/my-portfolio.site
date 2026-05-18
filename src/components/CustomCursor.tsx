@@ -34,23 +34,37 @@ export default function CustomCursor() {
 
     const enter = () => el.classList.add("is-active");
     const exit = () => el.classList.remove("is-active");
-    const sel = "a, button, [data-cursor], .work-card, .service-card, .skill-card, .role-card";
-    const targets = document.querySelectorAll(sel);
-    targets.forEach((t) => {
+    const textEnter = () => el.classList.add("is-text");
+    const textExit = () => el.classList.remove("is-text");
+
+    const interactiveSel = "a, button, [data-cursor='hover'], .feed-card, .skill-card, .story-bubble, .role-card, .cert-card";
+    const textSel = "h1, h2, h3, p, [data-cursor='text']";
+    const interactive = document.querySelectorAll(interactiveSel);
+    const textTargets = document.querySelectorAll(textSel);
+
+    interactive.forEach((t) => {
       t.addEventListener("mouseenter", enter);
       t.addEventListener("mouseleave", exit);
+    });
+    textTargets.forEach((t) => {
+      t.addEventListener("mouseenter", textEnter);
+      t.addEventListener("mouseleave", textExit);
     });
 
     return () => {
       cancelAnimationFrame(rafId);
       document.removeEventListener("mousemove", onMove);
       document.removeEventListener("mouseleave", onLeave);
-      targets.forEach((t) => {
+      interactive.forEach((t) => {
         t.removeEventListener("mouseenter", enter);
         t.removeEventListener("mouseleave", exit);
+      });
+      textTargets.forEach((t) => {
+        t.removeEventListener("mouseenter", textEnter);
+        t.removeEventListener("mouseleave", textExit);
       });
     };
   }, []);
 
-  return <div ref={dotRef} className="cursor-dot" aria-hidden />;
+  return <div ref={dotRef} className="cursor-blob" aria-hidden />;
 }

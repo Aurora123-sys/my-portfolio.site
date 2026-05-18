@@ -1,110 +1,123 @@
-import type { Metadata } from "next";
-import Reveal from "@/components/Reveal";
-import CtaBand from "@/components/CtaBand";
+"use client";
+import { motion } from "framer-motion";
+import { useLang } from "@/components/LanguageProvider";
+import ShaderField from "@/components/ShaderField";
 import { SKILL_GROUPS } from "@/lib/data";
+import clsx from "clsx";
 
-export const metadata: Metadata = {
-  title: "Skills",
-  description: "Technical skills across front-end, back-end, mobile, AI/ML, data & cloud, integrations, and methods.",
+const RING_TO_CONIC: Record<string, string> = {
+  lime: "conic-gradient(from 0deg, #c8ff00, #3df0d1, #c8ff00)",
+  coral: "conic-gradient(from 0deg, #ff5d7c, #ffb547, #ff5d7c)",
+  cyber: "conic-gradient(from 0deg, #9d6cff, #3df0d1, #9d6cff)",
+  fire: "conic-gradient(from 0deg, #ffb547, #ff5d7c, #ffb547)",
+  aurora: "conic-gradient(from 0deg, #c8ff00, #3df0d1, #9d6cff, #ff5d7c, #c8ff00)",
+  cyan: "conic-gradient(from 0deg, #3df0d1, #c8ff00, #3df0d1)",
+  violet: "conic-gradient(from 0deg, #9d6cff, #ff5d7c, #9d6cff)",
 };
 
-const PRINCIPLES = [
-  { n: "01.", title: "Boring is shippable.", body: "Postgres, Redis, a queue, a cache, a CDN. The hardest part of any project is finishing it — exotic infrastructure rarely helps." },
-  { n: "02.", title: "Observability before features.", body: "Structured logs, traces, error tracking, and SLO dashboards land in the first week. You can't fix what you can't see." },
-  { n: "03.", title: "AI is software.", body: "Evaluate it, version it, gate it, monitor it. Treat agents like microservices: well-bounded, retried, with deterministic fallbacks." },
-  { n: "04.", title: "Write the boring docs.", body: "Runbooks, onboarding READMEs, post-mortems. They pay dividends six months after I'm off the project." },
-];
-
 export default function SkillsPage() {
+  const { t } = useLang();
+
   return (
     <>
-      <section className="pt-40 pb-20 md:pt-48">
-        <div className="container">
-          <Reveal>
-            <div className="eyebrow mb-6">Stack</div>
-          </Reveal>
-          <Reveal delay={0.05}>
-            <h1 className="text-balance text-5xl md:text-6xl lg:text-[5.4rem]">
-              Tools I reach for,<br /><span className="italic-display">most weeks</span>.
-            </h1>
-          </Reveal>
-          <Reveal delay={0.15}>
-            <p className="mt-8 max-w-[64ch] text-lg leading-relaxed text-ink-500">
-              I prefer a small set of well-understood tools, used carefully, over a long inventory of dabbling. The list below is grouped by where I spend most of my time — and where I&apos;d be comfortable being the senior engineer on a team.
-            </p>
-          </Reveal>
+      <section className="relative overflow-hidden pt-32 pb-16 md:pt-40">
+        <div className="pointer-events-none absolute inset-0">
+          <ShaderField className="h-full w-full opacity-50" variant="cyber" />
+        </div>
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-bg/30 via-bg/40 to-bg" />
+
+        <div className="container relative">
+          <div className="text-eyebrow mb-5">{t("skills.eyebrow")}</div>
+          <h1 className="text-balance text-5xl md:text-6xl lg:text-[5.4rem]">
+            {t("skills.title.1")}
+            <br />
+            <span className="italic text-lime">{t("skills.title.2")}</span>
+          </h1>
+          <p className="mt-8 max-w-[64ch] text-lg leading-relaxed text-ink-muted">{t("skills.body")}</p>
         </div>
       </section>
 
-      <section className="pb-24">
+      {/* SKILL HIGHLIGHTS / STORY GRID */}
+      <section className="pb-24 pt-8">
         <div className="container">
-          <div className="grid gap-4 md:grid-cols-2">
+          <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
             {SKILL_GROUPS.map((g, i) => (
-              <Reveal key={g.code} delay={(i % 2) * 0.08}>
-                <article className="skill-card group relative overflow-hidden rounded-4xl border border-ink/10 bg-cream-100 p-8 transition-all duration-400 hover:-translate-y-1 hover:shadow-glow">
-                  <header className="mb-6 flex items-center gap-4">
-                    <div className={`flex h-12 w-12 items-center justify-center rounded-2xl font-mono font-semibold text-ink ${g.gradient}`}>
+              <motion.article
+                key={g.code}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "0px 0px -10% 0px" }}
+                transition={{ duration: 0.6, delay: (i % 3) * 0.06 }}
+                className="skill-card group relative overflow-hidden rounded-3xl border border-line bg-bg-surface p-7 transition-all duration-400 hover:-translate-y-1 hover:border-lime/25"
+              >
+                <div
+                  className="pointer-events-none absolute -right-16 -top-16 h-44 w-44 rounded-full opacity-20 blur-2xl transition-opacity duration-500 group-hover:opacity-50"
+                  style={{ background: RING_TO_CONIC[g.ring] }}
+                />
+                <header className="mb-5 flex items-center gap-4">
+                  <div className="rounded-2xl p-[2px]" style={{ background: RING_TO_CONIC[g.ring] }}>
+                    <div className="flex h-12 w-12 items-center justify-center rounded-[14px] bg-bg-card font-mono text-sm font-semibold">
                       {g.code}
                     </div>
-                    <div>
-                      <div className="font-mono text-[0.74rem] uppercase tracking-[0.1em] text-ink-400">{g.sub}</div>
-                      <div className="font-display text-2xl tracking-tight">{g.title}</div>
-                    </div>
-                  </header>
-                  <div className="flex flex-wrap gap-2">
-                    {g.items.map((it) => (
-                      <span
-                        key={it}
-                        className="rounded-full bg-cream-200 px-3.5 py-1.5 text-sm transition-all duration-200 hover:scale-105 hover:bg-ink hover:text-cream-100"
-                      >
-                        {it}
-                      </span>
-                    ))}
                   </div>
-                </article>
-              </Reveal>
+                  <div>
+                    <div className="font-mono text-[0.7rem] uppercase tracking-[0.12em] text-ink-faint">{g.sub}</div>
+                    <div className="font-display text-2xl tracking-tight">{g.title}</div>
+                  </div>
+                </header>
+                <div className="flex flex-wrap gap-1.5">
+                  {g.items.map((it) => (
+                    <span
+                      key={it}
+                      className={clsx(
+                        "chip transition-all duration-200",
+                        "hover:scale-[1.04] hover:border-lime/30 hover:bg-lime/8 hover:text-ink"
+                      )}
+                    >
+                      {it}
+                    </span>
+                  ))}
+                </div>
+              </motion.article>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="bg-grad-dark py-24 text-cream-100 md:py-32">
+      {/* PRINCIPLES */}
+      <section className="relative overflow-hidden bg-bg-surface py-24 md:py-28">
         <div className="container-narrow">
-          <div className="mb-14 grid items-end gap-10 md:grid-cols-[1fr_1.4fr] md:gap-16">
-            <Reveal>
-              <div className="eyebrow mb-4" style={{ color: "rgba(255,255,255,0.6)" }}>Principles</div>
-              <h2 className="text-4xl text-cream-100 md:text-5xl">How I <span className="italic-display">decide</span> things.</h2>
-            </Reveal>
-            <Reveal delay={0.1}>
-              <p className="max-w-[56ch] text-lg leading-relaxed text-cream-100/75">
-                A short, opinionated list. Refined over a decade of client work — open to being wrong about any of them.
-              </p>
-            </Reveal>
+          <div className="mb-12 grid items-end gap-10 md:grid-cols-[1fr_1.4fr] md:gap-16">
+            <div>
+              <div className="text-eyebrow mb-4">{t("skills.principles.eyebrow")}</div>
+              <h2 className="text-4xl md:text-5xl">
+                {t("skills.principles.heading.1")}{" "}
+                <span className="italic text-lime">{t("skills.principles.heading.2")}</span>{" "}
+                {t("skills.principles.heading.3")}
+              </h2>
+            </div>
+            <p className="max-w-[56ch] text-lg leading-relaxed text-ink-muted">{t("skills.principles.body")}</p>
           </div>
 
           <div className="grid gap-7 md:grid-cols-2">
-            {PRINCIPLES.map((p, i) => (
-              <Reveal key={p.n} delay={i * 0.08}>
-                <div>
-                  <h3 className="mb-2.5 flex items-baseline gap-3 text-2xl text-cream-100">
-                    <span className="font-mono text-base text-cream-100/50">{p.n}</span>
-                    {p.title}
-                  </h3>
-                  <p className="text-cream-100/75">{p.body}</p>
-                </div>
-              </Reveal>
+            {[1, 2, 3, 4].map((i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: (i - 1) * 0.06 }}
+              >
+                <h3 className="mb-2.5 flex items-baseline gap-3 text-2xl">
+                  <span className="num text-base text-lime">0{i}.</span>
+                  {t(`home.principles.${i}.title`)}
+                </h3>
+                <p className="text-ink-muted">{t(`home.principles.${i}.body`)}</p>
+              </motion.div>
             ))}
           </div>
         </div>
       </section>
-
-      <CtaBand
-        eyebrow="Match check"
-        title={<>Stack <span className="italic-display">looks right</span>?</>}
-        body="Most engagements start with a 30-minute scoping call to see whether the fit is real. No deck required."
-        href="/contact"
-        cta="Book a scoping call"
-      />
     </>
   );
 }

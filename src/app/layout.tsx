@@ -4,6 +4,7 @@ import SmoothScroll from "@/components/SmoothScroll";
 import CustomCursor from "@/components/CustomCursor";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
+import { LanguageProvider } from "@/components/LanguageProvider";
 import "./globals.css";
 
 const fraunces = Fraunces({
@@ -27,16 +28,15 @@ const mono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Ravi Yoshitomo Tsunenori — Full-Stack & AI Systems Engineer",
-    template: "%s — Ravi Yoshitomo Tsunenori",
+    default: "Ravi Tsunenori — Senior Engineer",
+    template: "%s · Ravi Tsunenori",
   },
   description:
-    "Independent full-stack, mobile, and AI systems engineer based in Tokyo. Building production SaaS, LLM agents, and high-performance interfaces.",
+    "Independent senior full-stack, AI systems, and mobile engineer. Decade of freelance practice.",
   metadataBase: new URL("https://ravi.dev"),
   openGraph: {
-    title: "Ravi Yoshitomo Tsunenori — Full-Stack & AI Systems Engineer",
-    description:
-      "Tokyo-based freelance engineer. SaaS, AI agents, mobile, integrations.",
+    title: "Ravi Tsunenori — Senior Engineer",
+    description: "Full-stack, AI, mobile. Decade of freelance practice.",
     type: "website",
   },
 };
@@ -47,13 +47,19 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${fraunces.variable} ${inter.variable} ${mono.variable}`}>
+    <html
+      lang="en"
+      className={`${fraunces.variable} ${inter.variable} ${mono.variable}`}
+      suppressHydrationWarning
+    >
       <body>
-        <SmoothScroll />
-        <CustomCursor />
-        <Nav />
-        <main>{children}</main>
-        <Footer />
+        <LanguageProvider>
+          <SmoothScroll />
+          <CustomCursor />
+          <Nav />
+          <main>{children}</main>
+          <Footer />
+        </LanguageProvider>
       </body>
     </html>
   );

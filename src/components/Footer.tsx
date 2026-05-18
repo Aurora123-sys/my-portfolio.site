@@ -1,41 +1,42 @@
+"use client";
 import Link from "next/link";
+import { useLang } from "./LanguageProvider";
+import { NAV_LINKS } from "@/lib/data";
 
 export default function Footer() {
   const year = new Date().getFullYear();
+  const { t } = useLang();
+
   return (
-    <footer className="border-t border-ink/10 bg-cream-100 pb-8 pt-20">
+    <footer className="relative mt-20 border-t border-line bg-bg pt-20 pb-10">
       <div className="container">
-        <div className="mb-16 grid gap-12 md:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
+        <div className="mb-14 grid gap-12 md:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr]">
           <div>
-            <h3 className="mb-3 text-3xl font-display">
-              Ravi <span className="italic-display">Tsunenori</span>
+            <h3 className="mb-3 font-display text-3xl">
+              ravi<span className="text-lime">.</span>tsunenori
             </h3>
-            <p className="max-w-xs text-ink-500">
-              Independent full-stack & AI systems engineer based in Tokyo. Available for select engagements.
-            </p>
+            <p className="max-w-sm text-ink-muted">{t("footer.about")}</p>
+            <div className="mt-5">
+              <span className="badge-live">{t("common.openToWork")}</span>
+            </div>
           </div>
-          <FooterCol title="Navigate">
-            <li><Link href="/about">About</Link></li>
-            <li><Link href="/work">Work</Link></li>
-            <li><Link href="/skills">Skills</Link></li>
-            <li><Link href="/contact">Contact</Link></li>
+          <FooterCol title={t("footer.navigate")}>
+            {NAV_LINKS.map((l) => (
+              <li key={l.href}>
+                <Link href={l.href}>{t(l.labelKey)}</Link>
+              </li>
+            ))}
           </FooterCol>
-          <FooterCol title="Reach">
-            <li><a href="mailto:hello@ravi.dev">hello@ravi.dev</a></li>
-            <li><a href="#">linkedin.com/in/ravi-tsunenori</a></li>
-            <li><a href="#">github.com/ravi-tsunenori</a></li>
-            <li><a href="#">upwork.com — Top-Rated Plus</a></li>
-          </FooterCol>
-          <FooterCol title="Studio">
+          <FooterCol title={t("footer.studio")}>
             <li>Tokyo, Japan 🇯🇵</li>
-            <li>Working in JST · UTC+9</li>
-            <li>EN / 日本語</li>
+            <li>{t("footer.timezone")}</li>
+            <li>{t("footer.languages")}</li>
           </FooterCol>
         </div>
 
-        <div className="flex flex-wrap items-center justify-between gap-3 border-t border-ink/10 pt-6 text-sm text-ink-400">
-          <span>© {year} Ravi Yoshitomo Tsunenori — All rights reserved.</span>
-          <span className="font-mono">Crafted in Tokyo · 東京</span>
+        <div className="flex flex-wrap items-center justify-between gap-3 border-t border-line pt-6 font-mono text-xs uppercase tracking-[0.1em] text-ink-faint">
+          <span>© {year} · {t("footer.rights")}</span>
+          <span>{t("footer.signature")}</span>
         </div>
       </div>
     </footer>
@@ -45,10 +46,10 @@ export default function Footer() {
 function FooterCol({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div>
-      <h5 className="mb-4 font-mono text-[0.74rem] font-medium uppercase tracking-[0.18em] text-ink-400">
+      <h5 className="mb-4 font-mono text-[0.72rem] font-medium uppercase tracking-[0.18em] text-ink-faint">
         {title}
       </h5>
-      <ul className="flex flex-col gap-2.5 text-ink-500">{children}</ul>
+      <ul className="flex flex-col gap-2.5 text-ink-muted">{children}</ul>
     </div>
   );
 }

@@ -33,16 +33,16 @@ export default function LangBar({
 
   return (
     <div ref={ref}>
-      <div className="mb-2 flex items-baseline justify-between">
+      <div className="mb-2.5 flex items-baseline justify-between">
         <span className="font-display text-xl">{name}</span>
-        <span className="font-mono text-xs text-ink-400">{level}</span>
+        <span className="font-mono text-[0.74rem] uppercase tracking-[0.08em] text-ink-faint">{level}</span>
       </div>
-      <div className="h-1.5 overflow-hidden rounded-full bg-ink/10">
+      <div className="relative h-1.5 overflow-hidden rounded-full bg-white/[0.06]">
         <motion.div
           initial={reduce ? { width: `${pct}%` } : { width: 0 }}
           animate={start ? { width: `${pct}%` } : { width: 0 }}
           transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1] }}
-          className="h-full rounded-full bg-grad-aurora"
+          className="absolute inset-y-0 left-0 rounded-full bg-grad-lime"
         />
       </div>
     </div>

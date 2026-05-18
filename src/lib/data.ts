@@ -1,48 +1,38 @@
+import type { Locale } from "./i18n";
+
 export const NAV_LINKS = [
-  { href: "/", label: "Home" },
-  { href: "/about", label: "About" },
-  { href: "/work", label: "Work" },
-  { href: "/skills", label: "Skills" },
-  { href: "/contact", label: "Contact" },
+  { href: "/", labelKey: "nav.home" },
+  { href: "/about", labelKey: "nav.about" },
+  { href: "/work", labelKey: "nav.work" },
+  { href: "/skills", labelKey: "nav.skills" },
 ] as const;
 
-export const STATS = [
-  { value: 12, suffix: "K+ MAU", label: "Active users served across FlowClinic deployments" },
-  { value: 200, suffix: "K / day", label: "Webhook events processed through automation engines" },
-  { value: 30, suffix: "+ engagements", label: "Delivered to clients across 9 countries on Upwork" },
-  { value: 4.97, decimals: 2, suffix: "/ 5.0 ★", label: "200+ contracts · sustained Top-Rated Plus rating" },
+export const HOME_STATS = [
+  { value: 30, suffix: "+", key: "home.stat.projects" },
+  { value: 12, suffix: "K+", key: "home.stat.clients" },
+  { value: 10, suffix: " yrs", key: "home.stat.years" },
+  { value: 4.97, decimals: 2, suffix: " ★", key: "home.stat.rating" },
 ] as const;
 
-export const SERVICES = [
-  {
-    n: "01",
-    title: "SaaS Product Engineering",
-    tags: ["Next.js", "NestJS", "PostgreSQL", "Stripe"],
-    body: "Multi-tenant platforms with payments, RBAC, and 99.9% uptime SLOs. Architected for ten users or ten thousand.",
-    gradient: "bg-grad-aurora",
-  },
-  {
-    n: "02",
-    title: "AI Agents & RAG Systems",
-    tags: ["GPT-4o", "LangChain", "Pinecone", "pgvector"],
-    body: "WhatsApp triage bots, multi-agent orchestration, and semantic search over 50GB+ knowledge bases. Production scale only.",
-    gradient: "bg-grad-warm",
-  },
-  {
-    n: "03",
-    title: "Mobile · iOS · Android",
-    tags: ["Flutter", "React Native", "SwiftUI", "Kotlin"],
-    body: "Cross-platform and native — from real-time matching with offline cache to BLE wearable sync and Apple Pay flows.",
-    gradient: "bg-grad-cool",
-  },
-  {
-    n: "04",
-    title: "Integrations & Automation",
-    tags: ["Twilio", "Shopify", "n8n", "Webhooks"],
-    body: "HMAC-verified webhook pipelines, idempotent queues, and timezone-aware CRM nurture flows that don't drop on the third retry.",
-    gradient: "bg-grad-mint",
-  },
-] as const;
+/**
+ * Story bubbles. `colors` drive the conic-gradient ring.
+ */
+export type Story = {
+  id: string;
+  labelKey: string;
+  ring: "lime" | "coral" | "cyber" | "fire" | "aurora" | "cyan" | "violet";
+  emoji: string;
+};
+
+export const STORIES: Story[] = [
+  { id: "fullstack", labelKey: "home.stories.fullstack", ring: "lime", emoji: "⚡" },
+  { id: "ai", labelKey: "home.stories.ai", ring: "violet", emoji: "✦" },
+  { id: "mobile", labelKey: "home.stories.mobile", ring: "coral", emoji: "◐" },
+  { id: "realtime", labelKey: "home.stories.realtime", ring: "cyan", emoji: "◉" },
+  { id: "payments", labelKey: "home.stories.payments", ring: "fire", emoji: "$" },
+  { id: "devops", labelKey: "home.stories.devops", ring: "cyber", emoji: "▲" },
+  { id: "design", labelKey: "home.stories.design", ring: "aurora", emoji: "◆" },
+];
 
 export type Project = {
   slug: string;
@@ -54,7 +44,9 @@ export type Project = {
   tags: string[];
   era: string;
   category: string;
-  accent: "rose" | "lav" | "sky" | "mint" | "amber";
+  postedAgo: string;
+  reactions: { likes: string; saves: string };
+  accent: "lime" | "coral" | "violet" | "cyan" | "amber";
 };
 
 export const PROJECTS: Project[] = [
@@ -63,121 +55,126 @@ export const PROJECTS: Project[] = [
     badge: "SaaS · Health",
     category: "SaaS",
     era: "2023 — Present",
+    postedAgo: "ongoing",
+    reactions: { likes: "1.2k", saves: "318" },
     title: "FlowClinic — multi-tenant clinic platform",
-    blurb:
-      "12K+ MAU across three countries. Scheduling, billing, RBAC, and patient comms in one shipping product.",
+    blurb: "12K+ MAU across three countries. Scheduling, billing, RBAC, and patient comms in one shipping product.",
     blurbLong:
       "A scheduling, billing, and patient-comms platform serving twelve thousand active users across clinics in Japan, Singapore, and Australia. I designed the data model, built the backend on NestJS, shipped the Next.js front-end, and own the deploy pipeline.",
     stats: [
       { value: "12K+", label: "MAU · 3 countries" },
-      { value: "99.94%", label: "uptime · rolling 30d" },
-      { value: "3 yrs", label: "continuous engagement" },
+      { value: "99.94%", label: "uptime · 30d" },
+      { value: "3 yrs", label: "engagement" },
     ],
     tags: ["Next.js 14", "NestJS", "PostgreSQL", "Redis", "Stripe", "Vercel"],
-    accent: "rose",
+    accent: "lime",
   },
   {
     slug: "ceras-health",
     badge: "AI · Health",
     category: "AI",
     era: "2024 — Present",
+    postedAgo: "3 mo ago",
+    reactions: { likes: "2.4k", saves: "612" },
     title: "Ceras Health — WhatsApp AI triage",
     blurb: "GPT-4o + Twilio with human handoff. Cut support volume 38% in the first quarter post-launch.",
     blurbLong:
-      "A WhatsApp-first triage assistant for patients. GPT-4o behind a strict tool-use boundary, with deterministic handoff to human staff on red-flag symptoms, escalations, and explicit user request. Designed to be safe before clever.",
+      "A WhatsApp-first triage assistant. GPT-4o behind a strict tool-use boundary, with deterministic handoff to human staff on red-flag symptoms, escalations, and explicit user request. Safe before clever.",
     stats: [
       { value: "−38%", label: "support volume Q1" },
-      { value: "<4s", label: "median P50 reply" },
-      { value: "EN / JP", label: "bilingual launch" },
+      { value: "<4s", label: "median P50" },
+      { value: "EN / JP", label: "bilingual" },
     ],
     tags: ["OpenAI GPT-4o", "LangChain", "Twilio", "Pinecone", "NestJS"],
-    accent: "lav",
+    accent: "violet",
   },
   {
     slug: "timeleft",
     badge: "Mobile · Social",
     category: "Mobile",
     era: "2023 — 2024",
+    postedAgo: "8 mo ago",
+    reactions: { likes: "964", saves: "204" },
     title: "Timeleft — real-time social discovery",
-    blurb:
-      "React Native + Expo. Real-time matching, offline-first cache, push pipelines via FCM and APNs.",
+    blurb: "React Native + Expo. Real-time matching, offline-first cache, push pipelines via FCM and APNs.",
     blurbLong:
-      "A consumer social app with real-time matching, offline-first cache, and push pipelines via FCM and APNs. I led the deep-link architecture and redesigned the onboarding flow — Day-7 retention improved 21% on the cohort analytics.",
+      "Consumer social app with real-time matching, offline-first cache, and push pipelines via FCM and APNs. I led the deep-link architecture and redesigned the onboarding flow — Day-7 retention improved 21% on the cohort analytics.",
     stats: [
       { value: "+21%", label: "D7 retention" },
       { value: "RN + Expo", label: "iOS & Android" },
-      { value: "Offline-first", label: "realtime sync" },
+      { value: "Offline-first", label: "realtime" },
     ],
     tags: ["React Native", "Expo", "FCM", "APNs", "Realtime DB"],
-    accent: "amber",
+    accent: "coral",
   },
   {
     slug: "her-lip-to",
     badge: "E-commerce · iOS",
     category: "Mobile",
     era: "2022 — 2023",
+    postedAgo: "1 yr ago",
+    reactions: { likes: "732", saves: "118" },
     title: "Her lip to — luxury fashion iOS",
-    blurb:
-      "SwiftUI carousels with synchronized wishlists, restock alerts, Apple Pay checkout.",
+    blurb: "SwiftUI carousels with synchronized wishlists, restock alerts, Apple Pay checkout.",
     blurbLong:
       "Native iOS features for a fast-growing luxury label. SwiftUI product carousels with synchronized wishlists, restock alerts, and Apple Pay checkout. Tight design system collaboration with the in-house team.",
     stats: [
-      { value: "SwiftUI", label: "+ UIKit interop" },
-      { value: "Apple Pay", label: "PCI-light checkout" },
+      { value: "SwiftUI", label: "+ UIKit" },
+      { value: "Apple Pay", label: "checkout" },
       { value: "Restock", label: "push alerts" },
     ],
     tags: ["SwiftUI", "UIKit", "Apple Pay", "Push", "StoreKit"],
-    accent: "sky",
+    accent: "cyan",
   },
 ];
 
 export const ROLES = [
   {
-    title: "Freelance Full-Stack Developer",
-    org: "Self-Employed · Tokyo, Japan (Remote)",
+    title: "Freelance Full-Stack",
+    org: "Self-Employed · Remote",
     when: "April 2014 — Present",
     bullets: [
-      "Designed and shipped end-to-end SaaS — FlowClinic serves 12,000+ MAU across three countries on Next.js 14 + NestJS + PostgreSQL.",
+      "Designed and shipped end-to-end SaaS — FlowClinic at 12K+ MAU on Next.js 14 + NestJS + PostgreSQL.",
       "Developed the Ceras Health WhatsApp triage chatbot (Twilio + GPT-4o + LangChain). Cut support volume 38% in Q1.",
-      "Architected multi-stage automation workflows on Bull/Redis + NestJS microservices processing 200K events/day for an e-commerce client.",
+      "Architected multi-stage automation workflows on Bull/Redis + NestJS microservices processing 200K events/day.",
       "Integrated RAG pipelines on Pinecone and pgvector across 50GB+ of proprietary product documentation.",
-      "Implemented Stripe billing — subscriptions, usage-based, free-trial flows — across eight SaaS products with PCI-compliant webhooks.",
-      "4.97 / 5.0 average rating over 200+ contracts; sustained Top-Rated Plus on Upwork.",
+      "Implemented Stripe billing — subscriptions, usage-based, free-trial — across eight SaaS products.",
+      "4.97 / 5.0 across 200+ contracts; sustained Top-Rated Plus.",
     ],
     tags: ["Next.js", "NestJS", "TypeScript", "PostgreSQL", "Redis", "Twilio", "OpenAI", "LangChain", "Pinecone", "Stripe", "Vercel"],
   },
   {
-    title: "Freelance Mobile Developer — Multiplatform & Native",
-    org: "Self-Employed · Tokyo, Japan (Remote)",
+    title: "Freelance Mobile — Multiplatform & Native",
+    org: "Self-Employed · Remote",
     when: "June 2015 — Present",
     bullets: [
-      "Cross-platform apps in Flutter and React Native / Expo. Timeleft — real-time matching, offline-first cache, FCM and APNs push.",
-      "Native iOS features in SwiftUI + UIKit for the Her lip to luxury fashion app, including product carousels, restock alerts, Apple Pay.",
-      "Kotlin / Android SDK modules for a wearable health-monitoring app — BLE pairing, background sync, encrypted local storage.",
-      "Led deep-link architecture and onboarding redesign for an RN/Expo consumer app — 21% improvement in D7 retention.",
+      "Cross-platform apps in Flutter and React Native / Expo. Timeleft — real-time matching, offline cache, FCM/APNs push.",
+      "Native iOS in SwiftUI + UIKit for the Her lip to luxury fashion app — product carousels, restock alerts, Apple Pay.",
+      "Kotlin / Android SDK for a wearable health-monitoring app — BLE pairing, background sync, encrypted local storage.",
+      "Deep-link architecture and onboarding redesign for an RN/Expo app — 21% improvement in D7 retention.",
     ],
     tags: ["React Native", "Expo", "Flutter", "Dart", "Swift", "SwiftUI", "UIKit", "Kotlin", "Java", "Android SDK"],
   },
   {
-    title: "Freelance Front-End Developer",
-    org: "Self-Employed · Tokyo, Japan (Remote)",
+    title: "Freelance Front-End",
+    org: "Self-Employed · Remote",
     when: "April 2014 — Present",
     bullets: [
-      "High-converting landing pages and programmatic SEO at scale for Printful's partner ecosystem. LCP < 1.8s under heavy image loads with next/image + ISR.",
+      "High-converting landing pages and programmatic SEO at scale for Printful's partner ecosystem. LCP < 1.8s.",
       "Worked within large React and Vue codebases with strict design systems; i18n / hreflang for 14-locale campaigns.",
       "Built A/B-testable page variants for paid acquisition.",
-      "Delivered iMean AI's public-facing marketing site with animated scroll sequences, GSAP transitions, and an embedded live product demo.",
+      "Delivered iMean AI's public-facing marketing site with animated scroll sequences and an embedded live product demo.",
     ],
     tags: ["Next.js", "React", "Vue", "Nuxt", "TypeScript", "Tailwind", "ISR", "Headless CMS"],
   },
   {
-    title: "Freelance Integration & Automation Developer",
-    org: "Self-Employed · Tokyo, Japan (Remote)",
+    title: "Freelance Integration & Automation",
+    org: "Self-Employed · Remote",
     when: "March 2015 — Present",
     bullets: [
-      "Order-webhook normalization layers for Shopify, Etsy, WooCommerce — HMAC validation, idempotency keys, DLQs in Node.js / NestJS.",
-      "Lead-to-CRM pipelines with Clearbit enrichment + multi-channel nurture (Resend, Twilio WhatsApp), timezone-aware scheduling.",
-      "Equivalent automation workflows in n8n, Make, Zapier for budget-constrained clients — same SLAs as custom code.",
+      "Order-webhook normalization for Shopify, Etsy, WooCommerce — HMAC validation, idempotency keys, DLQs.",
+      "Lead-to-CRM pipelines with Clearbit + multi-channel nurture (Resend, Twilio WhatsApp), timezone-aware scheduling.",
+      "Automation workflows in n8n, Make, Zapier with the same reliability SLAs as custom code.",
     ],
     tags: ["Node.js", "Express", "NestJS", "PHP", "Laravel", "Python", "Django", "FastAPI", "n8n", "Make", "Zapier"],
   },
@@ -188,50 +185,50 @@ export const SKILL_GROUPS = [
     code: "FE",
     sub: "01 · Daily driver",
     title: "Front-End",
-    gradient: "bg-grad-aurora",
-    items: ["React.js", "Next.js", "Vue.js", "Nuxt.js", "TypeScript", "Tailwind CSS", "GSAP", "Framer Motion", "SCSS"],
+    ring: "lime" as const,
+    items: ["React.js", "Next.js", "Vue.js", "Nuxt.js", "TypeScript", "Tailwind CSS", "GSAP", "Framer Motion"],
   },
   {
     code: "BE",
     sub: "02 · Production scale",
     title: "Back-End",
-    gradient: "bg-grad-warm",
+    ring: "coral" as const,
     items: ["Node.js", "NestJS", "Express", "Python", "FastAPI", "Django", "Laravel", "GraphQL", "REST", "tRPC"],
   },
   {
     code: "MO",
     sub: "03 · Cross-platform & native",
     title: "Mobile",
-    gradient: "bg-grad-cool",
+    ring: "fire" as const,
     items: ["React Native", "Expo", "Flutter", "Dart", "Swift", "SwiftUI", "UIKit", "Kotlin", "Android SDK"],
   },
   {
     code: "AI",
     sub: "04 · Most recent focus",
     title: "AI & ML",
-    gradient: "bg-grad-mint",
-    items: ["OpenAI", "Anthropic Claude", "LangChain", "LlamaIndex", "RAG", "Pinecone", "pgvector", "TensorFlow", "PyTorch", "Hugging Face"],
+    ring: "violet" as const,
+    items: ["OpenAI", "Anthropic Claude", "LangChain", "LlamaIndex", "RAG", "Pinecone", "pgvector", "TensorFlow", "PyTorch"],
   },
   {
     code: "DB",
     sub: "05 · Data & cloud",
     title: "Data & Cloud",
-    gradient: "bg-grad-electric",
+    ring: "cyan" as const,
     items: ["PostgreSQL", "MySQL", "MongoDB", "Redis", "Firebase", "Supabase", "AWS", "GCP", "Vercel", "Docker", "K8s"],
   },
   {
     code: "IO",
     sub: "06 · Plumbing & payments",
     title: "Integrations",
-    gradient: "bg-grad-aurora",
-    items: ["Stripe", "Twilio", "Shopify API", "Slack API", "Webhooks", "HMAC Validation", "n8n", "Make", "Zapier", "Dialogflow"],
+    ring: "aurora" as const,
+    items: ["Stripe", "Twilio", "Shopify API", "Slack API", "Webhooks", "HMAC", "n8n", "Make", "Zapier", "Dialogflow"],
   },
   {
     code: "OPS",
     sub: "07 · How I run engagements",
     title: "Methods",
-    gradient: "bg-grad-cool",
-    items: ["Agile / Scrum", "Git / GitHub", "DevOps", "Performance Monitoring", "A/B Testing", "i18n / hreflang", "Lighthouse / Core Web Vitals"],
+    ring: "cyber" as const,
+    items: ["Agile / Scrum", "Git / GitHub", "DevOps", "Performance Monitoring", "A/B Testing", "i18n", "Lighthouse"],
   },
 ];
 
@@ -248,26 +245,26 @@ export const TIMELINE = [
   {
     when: "2014 — Present",
     title: "Freelance practice, full-stack",
-    desc: "Started taking client work while still in technical college. Thirty-plus engagements later, the same practice now spans SaaS, AI systems, mobile, and integrations — with a 4.97 / 5.0 average rating across 200+ contracts.",
-    color: "bg-rose-600",
+    desc: "Started taking client work in technical college. Thirty-plus engagements later — SaaS, AI systems, mobile, and integrations — at 4.97 / 5.0 over 200+ contracts.",
+    color: "bg-coral",
   },
   {
     when: "March 2018",
     title: "Associate Degree — Kōsen Tokyo College",
-    desc: "Five-year accelerated technical program in software engineering and electronics. Best Graduation Project award for an autonomous task scheduler with priority-inversion prevention on a real-time embedded system.",
-    color: "bg-electric-500",
+    desc: "Five-year accelerated technical program in software engineering and electronics. Best Graduation Project award for an autonomous task scheduler with priority-inversion prevention.",
+    color: "bg-violet2",
   },
   {
     when: "2018 — 2020",
-    title: "BEng Information Engineering — Tokyo Institute of Technology",
-    desc: "Graduated with honors, GPA 3.82 / 4.00. Thesis: \"Latency-Optimized Multi-Agent Task Decomposition for Real-Time Language Model Systems\" — long before agents were trendy.",
-    color: "bg-sky2-600",
+    title: "BEng Information Engineering — Tokyo Tech",
+    desc: "Graduated with honors, GPA 3.82 / 4.00. Thesis: \"Latency-Optimized Multi-Agent Task Decomposition for Real-Time Language Model Systems\".",
+    color: "bg-cyan2",
   },
   {
     when: "2022 — 2024",
     title: "Cloud, ML, and Kubernetes certifications",
-    desc: "AWS Solutions Architect Associate, GCP Professional Data Engineer, CKAD, and TensorFlow Developer — a stretch of focused certification work to formalize what client projects had already taught.",
-    color: "bg-mint-500",
+    desc: "AWS Solutions Architect Associate, GCP Professional Data Engineer, CKAD, and TensorFlow Developer — formalizing what client projects had already taught.",
+    color: "bg-lime",
   },
 ];
 
@@ -288,3 +285,21 @@ export const MARQUEE = [
   "AWS",
   "Docker",
 ];
+
+/** Resolve a project's accent color to ring style, for the feed cards. */
+export function accentToRing(accent: Project["accent"]): "lime" | "coral" | "cyber" | "fire" | "aurora" | "cyan" | "violet" {
+  switch (accent) {
+    case "lime": return "lime";
+    case "coral": return "coral";
+    case "violet": return "violet";
+    case "cyan": return "cyan";
+    case "amber": return "fire";
+  }
+}
+
+// Locale param accepted so callers don't have to add a separate prop just to fetch from data
+// (kept simple — currently project content stays English; only labels translate)
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export function projectByLocale(p: Project, _locale: Locale): Project {
+  return p;
+}

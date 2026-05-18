@@ -1,182 +1,88 @@
+"use client";
+import { motion } from "framer-motion";
 import Link from "next/link";
-import AuroraCanvas from "@/components/AuroraCanvas";
-import Reveal from "@/components/Reveal";
-import Counter from "@/components/Counter";
+import ShaderField from "@/components/ShaderField";
+import ProfileCard from "@/components/ProfileCard";
+import StoryStrip from "@/components/StoryStrip";
+import FeedCard from "@/components/FeedCard";
+import NowPlaying from "@/components/NowPlaying";
 import Marquee from "@/components/Marquee";
-import CtaBand from "@/components/CtaBand";
-import ProjectArt from "@/components/ProjectArt";
-import { STATS, SERVICES, PROJECTS, MARQUEE } from "@/lib/data";
-import HeroVisual from "@/components/HeroVisual";
+import { PROJECTS, MARQUEE } from "@/lib/data";
+import { useLang } from "@/components/LanguageProvider";
 
 export default function Home() {
+  const { t } = useLang();
+
   return (
     <>
-      {/* ============ HERO ============ */}
-      <section className="relative flex min-h-screen items-center overflow-hidden pb-20 pt-32 md:pt-40">
-        <AuroraCanvas density={7} />
-        <div className="container relative z-10">
-          <div className="grid items-center gap-12 lg:grid-cols-[1.3fr_1fr] lg:gap-16">
+      {/* ============== HERO ============== */}
+      <section className="relative overflow-hidden pt-24 pb-16 md:pt-32 md:pb-24">
+        <div className="pointer-events-none absolute inset-0">
+          <ShaderField className="h-full w-full opacity-80" variant="lime" />
+        </div>
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-bg/50 via-bg/30 to-bg" />
+
+        <div className="container relative">
+          <ProfileCard />
+        </div>
+      </section>
+
+      {/* ============== STORY HIGHLIGHTS ============== */}
+      <section className="relative py-12 md:py-16">
+        <div className="container">
+          <div className="mb-6 flex items-end justify-between gap-6">
             <div>
-              <Reveal>
-                <div className="eyebrow">Tokyo · Freelance · Available</div>
-              </Reveal>
-              <h1 className="mt-6 text-[clamp(3rem,8.5vw,7.6rem)] font-display leading-[0.96] tracking-tighter text-balance">
-                <Reveal delay={0.05}>
-                  <span className="display-soft">I build </span>
-                  <span className="accent-underline display-soft">production</span>
-                </Reveal>
-                <Reveal delay={0.15}>
-                  <span className="italic-display">software</span>
-                </Reveal>
-                <Reveal delay={0.22}>
-                  <span className="display-soft">with </span>
-                  <span className="italic-display">soul</span>
-                  <span className="display-soft">.</span>
-                </Reveal>
-              </h1>
-
-              <Reveal delay={0.32}>
-                <div className="mt-9 flex flex-wrap items-center gap-7 text-ink-500">
-                  <span className="flex items-center gap-2 before:block before:h-1.5 before:w-1.5 before:rounded-full before:bg-rose-600">
-                    Full-Stack
-                  </span>
-                  <span className="flex items-center gap-2 before:block before:h-1.5 before:w-1.5 before:rounded-full before:bg-electric-500">
-                    AI Systems
-                  </span>
-                  <span className="flex items-center gap-2 before:block before:h-1.5 before:w-1.5 before:rounded-full before:bg-sky2-600">
-                    Mobile · iOS / Android
-                  </span>
-                </div>
-              </Reveal>
-
-              <Reveal delay={0.4}>
-                <div className="mt-9 flex flex-wrap gap-3.5">
-                  <Link href="/work" className="btn btn-primary">
-                    View selected work
-                    <svg className="h-4 w-4" viewBox="0 0 16 16" fill="none">
-                      <path d="M3 13L13 3M13 3H6M13 3v7" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                  </Link>
-                  <Link href="/contact" className="btn btn-ghost">
-                    Start a project
-                    <svg className="h-4 w-4" viewBox="0 0 16 16" fill="none">
-                      <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                  </Link>
-                </div>
-              </Reveal>
+              <div className="text-eyebrow">{t("home.stories.title")}</div>
+              <h2 className="mt-3 font-display text-3xl tracking-tight md:text-4xl">
+                {t("home.stories.subtitle")}
+              </h2>
             </div>
-
-            <HeroVisual />
+            <span className="font-mono text-[0.74rem] uppercase tracking-[0.12em] text-ink-faint">
+              7 / 7
+            </span>
           </div>
-        </div>
-
-        <div className="pointer-events-none absolute bottom-7 left-1/2 z-10 -translate-x-1/2 flex flex-col items-center gap-3 font-mono text-[0.72rem] uppercase tracking-[0.2em] text-ink-400">
-          Scroll
-          <span className="relative block h-9 w-px overflow-hidden bg-ink-400">
-            <span className="absolute -top-1/2 left-0 block h-1/2 w-full animate-trickle bg-ink" />
-          </span>
+          <StoryStrip />
         </div>
       </section>
 
-      {/* ============ STATS ============ */}
-      <section className="border-y border-ink/10 py-16 md:py-20">
+      {/* ============== PINNED FEED ============== */}
+      <section className="relative pb-24 pt-12">
         <div className="container">
-          <div className="grid grid-cols-2 gap-x-0 gap-y-8 lg:grid-cols-4">
-            {STATS.map((s, i) => (
-              <Reveal key={i} delay={i * 0.08}>
-                <div className="px-0 lg:border-l lg:border-ink/10 lg:px-7 lg:first:border-l-0 lg:first:pl-0">
-                  <div className="flex items-baseline gap-1 font-display text-5xl leading-none tracking-tight md:text-6xl lg:text-[3.6rem]">
-                    <Counter value={s.value} decimals={"decimals" in s ? s.decimals : 0} />
-                    <span className="ml-1 text-[0.5em] font-normal text-ink-500">{s.suffix}</span>
-                  </div>
-                  <p className="mt-2 text-sm text-ink-500">{s.label}</p>
-                </div>
-              </Reveal>
+          <div className="mb-10 flex items-end justify-between gap-6">
+            <div>
+              <div className="flex items-center gap-2 text-eyebrow">
+                <PinIcon /> {t("home.feed.title")}
+              </div>
+              <h2 className="mt-3 font-display text-3xl tracking-tight md:text-4xl">
+                {t("home.feed.subtitle")}
+              </h2>
+            </div>
+            <Link
+              href="/work"
+              className="hidden text-sm text-ink-muted underline-offset-4 hover:text-ink hover:underline sm:inline-flex"
+            >
+              {t("home.feed.viewAll")} →
+            </Link>
+          </div>
+
+          <div className="grid gap-6 md:grid-cols-2">
+            {PROJECTS.map((p, i) => (
+              <motion.div
+                key={p.slug}
+                initial={{ opacity: 0, y: 32 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "0px 0px -8% 0px" }}
+                transition={{ duration: 0.7, delay: (i % 2) * 0.08, ease: [0.22, 1, 0.36, 1] }}
+              >
+                <FeedCard project={p} />
+              </motion.div>
             ))}
           </div>
-        </div>
-      </section>
 
-      {/* ============ SERVICES ============ */}
-      <section className="py-24 md:py-32">
-        <div className="container">
-          <div className="mb-16 grid items-end gap-10 md:grid-cols-[1fr_1.4fr] md:gap-16">
-            <Reveal>
-              <div className="eyebrow mb-4">What I do</div>
-              <h2 className="text-balance text-4xl md:text-5xl lg:text-[3.6rem]">
-                Four <span className="italic-display">disciplines</span>,<br />one studio of one.
-              </h2>
-            </Reveal>
-            <Reveal delay={0.1}>
-              <p className="max-w-[56ch] text-lg leading-relaxed text-ink-500">
-                Over a decade of freelance work taught me to be the whole engineering team when needed: database to deployment,
-                design system to App Store, prompt to production agent.
-              </p>
-            </Reveal>
-          </div>
-
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {SERVICES.map((s, i) => (
-              <Reveal key={s.n} delay={i * 0.08}>
-                <article className="service-card group relative flex h-full min-h-[280px] flex-col gap-5 overflow-hidden rounded-4xl border border-ink/10 bg-white/55 p-8 transition-all duration-500 hover:-translate-y-1.5 hover:border-transparent hover:shadow-glow">
-                  <div
-                    className={`absolute right-0 top-0 h-56 w-56 translate-x-[40%] -translate-y-[40%] rounded-full ${s.gradient} blur-3xl opacity-0 transition-opacity duration-500 group-hover:opacity-40`}
-                  />
-                  <div className={`flex h-12 w-12 items-center justify-center rounded-2xl font-mono text-base font-semibold text-ink ${s.gradient}`}>
-                    {s.n}
-                  </div>
-                  <h3 className="text-2xl">{s.title}</h3>
-                  <div className="flex flex-wrap gap-1.5">
-                    {s.tags.map((t) => (
-                      <span key={t} className="pill">{t}</span>
-                    ))}
-                  </div>
-                  <p className="mt-auto text-sm leading-relaxed text-ink-500">{s.body}</p>
-                </article>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ============ FEATURED WORK ============ */}
-      <section className="bg-cream-200 py-24 md:py-32">
-        <div className="container">
-          <div className="mb-16 grid items-end gap-10 md:grid-cols-[1fr_1.4fr] md:gap-16">
-            <Reveal>
-              <div className="eyebrow mb-4">Selected work</div>
-              <h2 className="text-balance text-4xl md:text-5xl lg:text-[3.6rem]">
-                Recent <span className="italic-display">things</span> that shipped.
-              </h2>
-            </Reveal>
-            <Reveal delay={0.1}>
-              <p className="max-w-[56ch] text-lg leading-relaxed text-ink-500">
-                A glance at four representative engagements. The full case studies live on the work page —
-                including the one that cut a support team&apos;s ticket volume by 38%.
-              </p>
-            </Reveal>
-          </div>
-
-          <div className="grid grid-cols-12 gap-4">
-            <Reveal className="col-span-12 lg:col-span-7">
-              <FeaturedCard slug="flowclinic" />
-            </Reveal>
-            <Reveal delay={0.08} className="col-span-12 lg:col-span-5">
-              <FeaturedCard slug="ceras-health" />
-            </Reveal>
-            <Reveal className="col-span-12 lg:col-span-8">
-              <FeaturedCard slug="timeleft" />
-            </Reveal>
-            <Reveal delay={0.08} className="col-span-12 lg:col-span-4">
-              <FeaturedCard slug="her-lip-to" />
-            </Reveal>
-          </div>
-
-          <div className="mt-12 text-center">
+          <div className="mt-10 flex justify-center sm:hidden">
             <Link href="/work" className="btn btn-ghost">
-              See all case studies
-              <svg className="h-4 w-4" viewBox="0 0 16 16" fill="none">
+              {t("home.feed.viewAll")}
+              <svg className="h-3.5 w-3.5" viewBox="0 0 16 16" fill="none">
                 <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </Link>
@@ -184,49 +90,60 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ============ MARQUEE ============ */}
-      <Marquee items={MARQUEE} />
+      {/* ============== NOW + PRINCIPLES ============== */}
+      <section className="relative pb-24">
+        <div className="container">
+          <div className="grid gap-6 md:grid-cols-[1fr_1.2fr] md:gap-8">
+            <NowPlaying />
 
-      {/* ============ CTA ============ */}
-      <CtaBand
-        eyebrow="Let's build something"
-        title={
-          <>
-            Need a senior pair of hands<br /><span className="italic-display">that ships</span>?
-          </>
-        }
-        body="I take on a small number of engagements each quarter — from one-week AI prototypes to multi-month SaaS builds. Tell me what you're working on."
-        href="/contact"
-        cta="Start a conversation"
-      />
+            <div className="card relative overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-br from-lime/8 via-transparent to-coral/8" />
+              <div className="relative px-6 py-7 md:px-8">
+                <div className="text-eyebrow">{t("home.principles.title")}</div>
+                <h3 className="mt-3 max-w-md font-display text-2xl tracking-tight">
+                  {t("home.principles.body")}
+                </h3>
+
+                <ul className="mt-7 grid gap-x-6 gap-y-5 sm:grid-cols-2">
+                  {[1, 2, 3, 4].map((i) => (
+                    <motion.li
+                      key={i}
+                      initial={{ opacity: 0, y: 10 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: i * 0.08, duration: 0.5 }}
+                    >
+                      <div className="mb-1.5 flex items-center gap-2.5">
+                        <span className="num text-[0.92rem] text-lime">0{i}.</span>
+                        <span className="font-display text-[1.05rem] tracking-tight">
+                          {t(`home.principles.${i}.title`)}
+                        </span>
+                      </div>
+                      <p className="text-[0.88rem] leading-relaxed text-ink-muted">
+                        {t(`home.principles.${i}.body`)}
+                      </p>
+                    </motion.li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ============== MARQUEE ============== */}
+      <Marquee items={MARQUEE} />
     </>
   );
 }
 
-function FeaturedCard({ slug }: { slug: string }) {
-  const p = PROJECTS.find((x) => x.slug === slug)!;
+function PinIcon() {
   return (
-    <Link
-      href="/work"
-      className="work-card group block h-full min-h-[380px] overflow-hidden rounded-4xl border border-ink/10 bg-cream-100 transition-all duration-500 hover:-translate-y-1.5 hover:shadow-glow"
-    >
-      <div className="relative">
-        <span className="absolute left-4 top-4 z-10 inline-block rounded-full border border-ink/10 bg-cream-100/85 px-3 py-1 font-mono text-[0.7rem] uppercase tracking-[0.12em] backdrop-blur-md">
-          {p.badge}
-        </span>
-        <div className="relative aspect-[4/3] overflow-hidden">
-          <ProjectArt slug={p.slug} className="h-full w-full transition-transform duration-700 group-hover:scale-[1.04]" />
-        </div>
-      </div>
-      <div className="border-t border-ink/10 p-7">
-        <h3 className="mb-1.5 font-display text-2xl tracking-tight">{p.title}</h3>
-        <p className="mb-3.5 text-sm text-ink-500">{p.blurb}</p>
-        <div className="flex flex-wrap gap-1.5">
-          {p.tags.slice(0, 4).map((t) => (
-            <span key={t} className="pill">{t}</span>
-          ))}
-        </div>
-      </div>
-    </Link>
+    <svg viewBox="0 0 16 16" className="h-3.5 w-3.5" fill="none">
+      <path
+        d="M6 1.5l4 4-1.5 1.5L11 9.5l-1 1L7 7.5 4 10.5l-1-1L5.5 7 4 5.5l1.5-1.5L4 2.5l2-1z"
+        fill="currentColor"
+      />
+    </svg>
   );
 }
