@@ -15,7 +15,7 @@ export default function Nav() {
   const { t } = useLang();
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 12);
+    const onScroll = () => setScrolled(window.scrollY > 8);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -28,30 +28,19 @@ export default function Nav() {
 
   return (
     <>
-      {/* nav — twice as tall */}
       <header
         className={clsx(
-          "fixed inset-x-0 top-0 z-[100] transition-all duration-500",
-          scrolled ? "px-3 py-3 md:px-6 md:py-4" : "px-3 py-5 md:px-6 md:py-7"
+          "fixed inset-x-0 top-0 z-[100] transition-colors duration-300",
+          scrolled ? "border-b border-line bg-paper/85 backdrop-blur-xl" : "bg-transparent"
         )}
       >
-        <div
-          className={clsx(
-            "mx-auto flex max-w-[1280px] items-center justify-between transition-all duration-500",
-            // taller inner shell — h-[68px] mobile, h-[88px] desktop (≈ 2x prior)
-            "h-[68px] rounded-full border px-4 pl-6 md:h-[88px] md:px-5 md:pl-8",
-            scrolled
-              ? "border-line bg-paper/85 backdrop-blur-xl shadow-bento"
-              : "border-line bg-white/55 backdrop-blur-md shadow-rim"
-          )}
-        >
-          <Link href="/" className="flex items-center gap-3 font-display text-[1.1rem] md:text-[1.25rem]">
-            <span className="relative inline-flex h-9 w-9 items-center justify-center overflow-hidden rounded-full bg-ink text-paper md:h-11 md:w-11">
-              <span className="absolute inset-0 bg-grad-pop opacity-90 mix-blend-soft-light" />
-              <span className="relative font-bold">R</span>
+        <div className="container flex h-[72px] items-center justify-between md:h-[88px]">
+          <Link href="/" className="flex items-center gap-2.5 font-display text-[1.15rem] md:text-[1.25rem]">
+            <span className="relative inline-flex h-9 w-9 items-center justify-center rounded-full bg-ink text-paper md:h-10 md:w-10">
+              <span className="font-bold">R</span>
             </span>
             <span className="hidden text-ink-900 sm:inline">
-              ravi<span className="text-cobalt">.</span>tsunenori
+              ravi<span className="text-coral">.</span>tsunenori
             </span>
           </Link>
 
@@ -63,10 +52,10 @@ export default function Nav() {
                   key={l.href}
                   href={l.href}
                   className={clsx(
-                    "rounded-full px-4 py-3 text-[0.95rem] transition-colors",
+                    "rounded-full px-4 py-2.5 text-[0.95rem] transition-colors",
                     active
-                      ? "bg-ink text-paper"
-                      : "text-ink-700 hover:bg-ink/10 hover:text-ink-900"
+                      ? "text-coral"
+                      : "text-ink-700 hover:text-ink-900"
                   )}
                 >
                   {t(l.labelKey)}
@@ -75,8 +64,14 @@ export default function Nav() {
             })}
           </nav>
 
-          <div className="flex items-center gap-2 md:gap-3">
+          <div className="flex items-center gap-3">
             <LanguageSwitcher />
+            <Link href="/work" className="hidden md:inline-flex btn btn-cta !py-2.5 !px-5 !text-sm">
+              {t("nav.followCta")}
+              <svg className="h-3.5 w-3.5" viewBox="0 0 16 16" fill="none">
+                <path d="M3 13L13 3M13 3H6M13 3v7" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </Link>
             <button
               aria-label={t("nav.menuOpen")}
               onClick={() => {
@@ -100,7 +95,7 @@ export default function Nav() {
             initial={{ opacity: 0, y: -16 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -16 }}
-            transition={{ duration: 0.32 }}
+            transition={{ duration: 0.3 }}
             className="fixed inset-0 z-[90] flex flex-col bg-paper px-6 pb-10 pt-28 md:hidden"
           >
             <div className="mb-8 flex items-center justify-between">
@@ -114,10 +109,7 @@ export default function Nav() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.05 * i }}
               >
-                <Link
-                  href={l.href}
-                  className="block border-b border-line py-5 font-display text-4xl text-ink-900"
-                >
+                <Link href={l.href} className="block border-b border-line py-5 font-display text-4xl text-ink-900">
                   {t(l.labelKey)}
                 </Link>
               </motion.div>

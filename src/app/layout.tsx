@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Fraunces, Inter, JetBrains_Mono } from "next/font/google";
 import SmoothScroll from "@/components/SmoothScroll";
 import CustomCursor from "@/components/CustomCursor";
-import ScrollProgress from "@/components/ScrollProgress";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import { LanguageProvider } from "@/components/LanguageProvider";
@@ -31,11 +30,6 @@ export const metadata: Metadata = {
   title: { default: "Ravi Tsunenori — Senior Engineer", template: "%s · Ravi Tsunenori" },
   description: "Independent senior full-stack, AI systems, and mobile engineer. Decade of freelance practice.",
   metadataBase: new URL("https://ravi.dev"),
-  openGraph: {
-    title: "Ravi Tsunenori — Senior Engineer",
-    description: "Full-stack, AI, mobile. Decade of freelance practice.",
-    type: "website",
-  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -47,7 +41,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     >
       <body>
         <LanguageProvider>
-          <ScrollProgress />
           <SmoothScroll />
           <CustomCursor />
           <Nav />

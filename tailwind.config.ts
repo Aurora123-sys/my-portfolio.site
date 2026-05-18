@@ -1,7 +1,6 @@
 import type { Config } from "tailwindcss";
 
 const config: Config = {
-  darkMode: "class",
   content: [
     "./src/app/**/*.{ts,tsx}",
     "./src/components/**/*.{ts,tsx}",
@@ -25,52 +24,52 @@ const config: Config = {
     },
     extend: {
       colors: {
+        // Bright editorial paper
         paper: {
-          DEFAULT: "#f6f3ec",
-          50: "#fdfbf7",
-          100: "#f6f3ec",
-          200: "#ece7da",
-          300: "#dfd9c5",
+          DEFAULT: "#fbf8f3",   // off-white base
+          50: "#fffdf9",
+          100: "#fbf8f3",
+          200: "#f3eee4",
+          300: "#e6dfd0",
         },
         ink: {
           DEFAULT: "#0a0a10",
           900: "#0a0a10",
-          800: "#1a1a22",
           700: "#2a2a36",
           600: "#3d3d4d",
           500: "#5a5a6e",
           400: "#7a7a90",
           300: "#a8a8b8",
-          200: "#cccdd6",
-          100: "#e8e8ec",
+          200: "#d0d0d8",
         },
         line: {
           DEFAULT: "rgba(10,10,16,0.10)",
           strong: "rgba(10,10,16,0.18)",
           faint: "rgba(10,10,16,0.06)",
         },
-        // Editorial palette — Printful-inspired bands
+        // Brand reds / dark band — direct from Printful palette
+        coral: {
+          DEFAULT: "#e94542",   // primary CTA red
+          deep: "#c4382d",
+          soft: "#ff7a6b",
+        },
         forest: {
-          DEFAULT: "#143936",  // deep teal — services / hero band
+          DEFAULT: "#143936",   // dark band
           800: "#0d2a28",
           900: "#081a18",
         },
-        burgundy: { DEFAULT: "#5d2624", soft: "#7a3a37" },
-        // CTAs — vivid coral red
-        coral: { DEFAULT: "#e85a4f", soft: "#ff7a6b", deep: "#c4382d" },
-        amber2: { DEFAULT: "#ffb547", soft: "#ffcb7a" },
-        // Glass widget tints
-        rose: { DEFAULT: "#f5b7c5", soft: "#fdcfd9" },
-        violet2: { DEFAULT: "#7c3aed", soft: "#a78bfa" },
-        cyan2: { DEFAULT: "#06d6c8", soft: "#5eede2" },
-        cobalt: { DEFAULT: "#2347ff", soft: "#5570ff" },
-        lime: { DEFAULT: "#c8ff00", dim: "#a3d100" },
+        // Glass accents
+        rose:    { DEFAULT: "#f5b7c5", soft: "#fdcfd9" },
+        lavender:{ DEFAULT: "#c7b8f0", soft: "#dfd2ff" },
+        sky2:    { DEFAULT: "#bbd8f0", soft: "#d6e6f5" },
+        mint:    { DEFAULT: "#c4ebd2", soft: "#dcf3e3" },
+        amber2:  { DEFAULT: "#ffcf80", soft: "#ffe2ad" },
       },
       fontFamily: {
         display: ["var(--font-fraunces)", "Times New Roman", "serif"],
-        sans: ["var(--font-inter)", "system-ui", "sans-serif"],
-        body: ["var(--font-inter)", "system-ui", "sans-serif"],
-        mono: ["var(--font-mono)", "Consolas", "monospace"],
+        body:    ["var(--font-inter)",    "system-ui", "sans-serif"],
+        mono:    ["var(--font-mono)",     "Consolas", "monospace"],
+        sans:    ["var(--font-inter)",    "system-ui", "sans-serif"],
       },
       letterSpacing: {
         tighter2: "-0.04em",
@@ -80,12 +79,9 @@ const config: Config = {
         "3xl": "1.5rem",
         "4xl": "2rem",
         "5xl": "2.5rem",
-        "6xl": "3rem",
       },
       boxShadow: {
         bento: "0 1px 2px rgba(10,10,16,0.04), 0 14px 40px -8px rgba(10,10,16,0.10)",
-        rim: "inset 0 1px 0 rgba(255,255,255,0.7), 0 1px 2px rgba(10,10,16,0.05)",
-        // Glass widget — top rim highlight + soft floating shadow
         glass: [
           "inset 0 1px 0 rgba(255,255,255,0.95)",
           "inset 0 -1px 0 rgba(255,255,255,0.25)",
@@ -93,17 +89,11 @@ const config: Config = {
           "0 14px 38px -6px rgba(10,10,16,0.16)",
           "0 36px 70px -12px rgba(10,10,16,0.22)",
         ].join(", "),
-        glow: "0 0 0 0.5px rgba(232,90,79,0.4), 0 0 32px rgba(232,90,79,0.18)",
-        focus: "0 0 0 4px rgba(232,90,79,0.22)",
-        cta: "0 1px 2px rgba(10,10,16,0.05), 0 14px 32px -4px rgba(232,90,79,0.45)",
+        cta: "0 1px 2px rgba(10,10,16,0.06), 0 16px 36px -6px rgba(233,69,66,0.45)",
       },
       animation: {
         "marquee-x": "marquee-x 30s linear infinite",
-        "spin-slow": "spin 26s linear infinite",
-        "spin-slower": "spin 60s linear infinite",
         breathe: "breathe 2.6s ease-in-out infinite",
-        "border-spin": "border-spin 4s linear infinite",
-        blink: "blink 1.2s steps(2) infinite",
         rise: "rise 5s ease-in-out infinite",
       },
       keyframes: {
@@ -112,24 +102,10 @@ const config: Config = {
           "0%, 100%": { transform: "scale(1)", opacity: "1" },
           "50%": { transform: "scale(0.86)", opacity: "0.55" },
         },
-        "border-spin": { to: { "--angle": "360deg" } },
-        blink: { "0%, 100%": { opacity: "1" }, "50%": { opacity: "0" } },
         rise: {
           "0%, 100%": { transform: "translateY(0)" },
-          "50%": { transform: "translateY(-10px)" },
+          "50%": { transform: "translateY(-12px)" },
         },
-      },
-      backgroundImage: {
-        "grad-rose": "linear-gradient(135deg, #f5b7c5 0%, #a78bfa 100%)",
-        "grad-warm": "linear-gradient(135deg, #ffb547 0%, #e85a4f 60%, #7c3aed 100%)",
-        "grad-cobalt": "linear-gradient(135deg, #2347ff 0%, #7c3aed 100%)",
-        "grad-mint": "linear-gradient(135deg, #06d6c8 0%, #c8ff00 100%)",
-        "grad-paper":
-          "linear-gradient(180deg, #fdfbf7 0%, #f6f3ec 60%, #ece7da 100%)",
-        "grad-glass-rose":
-          "linear-gradient(135deg, rgba(255,255,255,0.85) 0%, rgba(245,183,197,0.55) 100%)",
-        "grad-glass-blue":
-          "linear-gradient(135deg, rgba(255,255,255,0.85) 0%, rgba(167,139,250,0.55) 100%)",
       },
     },
   },

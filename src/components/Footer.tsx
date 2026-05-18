@@ -8,23 +8,21 @@ export default function Footer() {
   const { t } = useLang();
 
   return (
-    <footer className="relative mt-20 border-t border-line bg-paper-100 pt-20 pb-10">
+    <footer className="border-t border-line bg-paper-50 pt-20 pb-10">
       <div className="container">
         <div className="mb-14 grid gap-12 md:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr]">
           <div>
             <h3 className="mb-3 font-display text-3xl text-ink-900">
-              ravi<span className="text-cobalt">.</span>tsunenori
+              ravi<span className="text-coral">.</span>tsunenori
             </h3>
             <p className="max-w-sm text-ink-500">{t("footer.about")}</p>
             <div className="mt-5">
-              <span className="badge-live">{t("common.openToWork")}</span>
+              <span className="badge">{t("common.openToWork")}</span>
             </div>
           </div>
           <FooterCol title={t("footer.navigate")}>
             {NAV_LINKS.map((l) => (
-              <li key={l.href}>
-                <Link href={l.href}>{t(l.labelKey)}</Link>
-              </li>
+              <li key={l.href}><Link href={l.href}>{t(l.labelKey)}</Link></li>
             ))}
           </FooterCol>
           <FooterCol title={t("footer.studio")}>
