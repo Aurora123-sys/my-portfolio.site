@@ -11,22 +11,22 @@ const config: Config = {
     container: {
       center: true,
       padding: {
-        DEFAULT: "1.25rem",
-        md: "2rem",
-        xl: "2.5rem",
+        DEFAULT: "1.5rem",
+        md: "2.5rem",
+        xl: "3rem",
       },
       screens: {
         sm: "640px",
         md: "768px",
         lg: "1024px",
-        xl: "1320px",
-        "2xl": "1380px",
+        xl: "1280px",
+        "2xl": "1340px",
       },
     },
     extend: {
       colors: {
         paper: {
-          DEFAULT: "#f6f3ec",   // warm cream
+          DEFAULT: "#f6f3ec",
           50: "#fdfbf7",
           100: "#f6f3ec",
           200: "#ece7da",
@@ -49,13 +49,22 @@ const config: Config = {
           strong: "rgba(10,10,16,0.18)",
           faint: "rgba(10,10,16,0.06)",
         },
-        // Vibrant, "bright" accents
-        lime: { DEFAULT: "#c8ff00", dim: "#a3d100" },
-        cobalt: { DEFAULT: "#2347ff", soft: "#5570ff" },
-        coral: { DEFAULT: "#ff5d5f", soft: "#ff8e90" },
+        // Editorial palette — Printful-inspired bands
+        forest: {
+          DEFAULT: "#143936",  // deep teal — services / hero band
+          800: "#0d2a28",
+          900: "#081a18",
+        },
+        burgundy: { DEFAULT: "#5d2624", soft: "#7a3a37" },
+        // CTAs — vivid coral red
+        coral: { DEFAULT: "#e85a4f", soft: "#ff7a6b", deep: "#c4382d" },
+        amber2: { DEFAULT: "#ffb547", soft: "#ffcb7a" },
+        // Glass widget tints
+        rose: { DEFAULT: "#f5b7c5", soft: "#fdcfd9" },
         violet2: { DEFAULT: "#7c3aed", soft: "#a78bfa" },
         cyan2: { DEFAULT: "#06d6c8", soft: "#5eede2" },
-        amber2: { DEFAULT: "#ffb547", soft: "#ffcb7a" },
+        cobalt: { DEFAULT: "#2347ff", soft: "#5570ff" },
+        lime: { DEFAULT: "#c8ff00", dim: "#a3d100" },
       },
       fontFamily: {
         display: ["var(--font-fraunces)", "Times New Roman", "serif"],
@@ -76,51 +85,51 @@ const config: Config = {
       boxShadow: {
         bento: "0 1px 2px rgba(10,10,16,0.04), 0 14px 40px -8px rgba(10,10,16,0.10)",
         rim: "inset 0 1px 0 rgba(255,255,255,0.7), 0 1px 2px rgba(10,10,16,0.05)",
-        glow: "0 0 0 0.5px rgba(35,71,255,0.4), 0 0 32px rgba(35,71,255,0.15)",
-        focus: "0 0 0 4px rgba(35,71,255,0.15)",
+        // Glass widget — top rim highlight + soft floating shadow
+        glass: [
+          "inset 0 1px 0 rgba(255,255,255,0.95)",
+          "inset 0 -1px 0 rgba(255,255,255,0.25)",
+          "0 1px 2px rgba(10,10,16,0.04)",
+          "0 14px 38px -6px rgba(10,10,16,0.16)",
+          "0 36px 70px -12px rgba(10,10,16,0.22)",
+        ].join(", "),
+        glow: "0 0 0 0.5px rgba(232,90,79,0.4), 0 0 32px rgba(232,90,79,0.18)",
+        focus: "0 0 0 4px rgba(232,90,79,0.22)",
+        cta: "0 1px 2px rgba(10,10,16,0.05), 0 14px 32px -4px rgba(232,90,79,0.45)",
       },
       animation: {
         "marquee-x": "marquee-x 30s linear infinite",
-        "marquee-y": "marquee-y 20s linear infinite",
         "spin-slow": "spin 26s linear infinite",
         "spin-slower": "spin 60s linear infinite",
         breathe: "breathe 2.6s ease-in-out infinite",
         "border-spin": "border-spin 4s linear infinite",
-        "blink": "blink 1.2s steps(2) infinite",
-        "shimmer": "shimmer 2.4s linear infinite",
-        "rise": "rise 4s ease-in-out infinite",
+        blink: "blink 1.2s steps(2) infinite",
+        rise: "rise 5s ease-in-out infinite",
       },
       keyframes: {
         "marquee-x": { to: { transform: "translateX(-50%)" } },
-        "marquee-y": { to: { transform: "translateY(-50%)" } },
         breathe: {
           "0%, 100%": { transform: "scale(1)", opacity: "1" },
           "50%": { transform: "scale(0.86)", opacity: "0.55" },
         },
-        "border-spin": {
-          to: { "--angle": "360deg" },
-        },
-        blink: {
-          "0%, 100%": { opacity: "1" },
-          "50%": { opacity: "0" },
-        },
-        shimmer: {
-          "0%": { backgroundPosition: "-200% 0" },
-          "100%": { backgroundPosition: "200% 0" },
-        },
+        "border-spin": { to: { "--angle": "360deg" } },
+        blink: { "0%, 100%": { opacity: "1" }, "50%": { opacity: "0" } },
         rise: {
           "0%, 100%": { transform: "translateY(0)" },
-          "50%": { transform: "translateY(-14px)" },
+          "50%": { transform: "translateY(-10px)" },
         },
       },
       backgroundImage: {
-        "grad-pop": "linear-gradient(135deg, #c8ff00 0%, #06d6c8 50%, #7c3aed 100%)",
-        "grad-warm": "linear-gradient(135deg, #ffb547 0%, #ff5d5f 60%, #7c3aed 100%)",
+        "grad-rose": "linear-gradient(135deg, #f5b7c5 0%, #a78bfa 100%)",
+        "grad-warm": "linear-gradient(135deg, #ffb547 0%, #e85a4f 60%, #7c3aed 100%)",
         "grad-cobalt": "linear-gradient(135deg, #2347ff 0%, #7c3aed 100%)",
-        "grad-citrus": "linear-gradient(135deg, #c8ff00 0%, #ffb547 100%)",
         "grad-mint": "linear-gradient(135deg, #06d6c8 0%, #c8ff00 100%)",
         "grad-paper":
           "linear-gradient(180deg, #fdfbf7 0%, #f6f3ec 60%, #ece7da 100%)",
+        "grad-glass-rose":
+          "linear-gradient(135deg, rgba(255,255,255,0.85) 0%, rgba(245,183,197,0.55) 100%)",
+        "grad-glass-blue":
+          "linear-gradient(135deg, rgba(255,255,255,0.85) 0%, rgba(167,139,250,0.55) 100%)",
       },
     },
   },
