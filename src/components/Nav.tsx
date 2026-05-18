@@ -28,30 +28,34 @@ export default function Nav() {
 
   return (
     <>
+      {/* nav — twice as tall */}
       <header
         className={clsx(
           "fixed inset-x-0 top-0 z-[100] transition-all duration-500",
-          scrolled ? "px-3 py-2.5 md:px-6" : "px-3 py-3.5 md:px-6 md:py-4"
+          scrolled ? "px-3 py-3 md:px-6 md:py-4" : "px-3 py-5 md:px-6 md:py-7"
         )}
       >
         <div
           className={clsx(
-            "mx-auto flex max-w-[1180px] items-center justify-between rounded-full border transition-all duration-500",
+            "mx-auto flex max-w-[1280px] items-center justify-between transition-all duration-500",
+            // taller inner shell — h-[68px] mobile, h-[88px] desktop (≈ 2x prior)
+            "h-[68px] rounded-full border px-4 pl-6 md:h-[88px] md:px-5 md:pl-8",
             scrolled
-              ? "border-line bg-bg/70 px-2 pl-5 py-1.5 backdrop-blur-xl shadow-card"
-              : "border-transparent bg-transparent px-2 pl-5 py-1.5"
+              ? "border-line bg-paper/85 backdrop-blur-xl shadow-bento"
+              : "border-line bg-white/55 backdrop-blur-md shadow-rim"
           )}
         >
-          <Link href="/" className="flex items-center gap-2.5 font-display text-[1.04rem]">
-            <span className="relative inline-flex h-7 w-7 items-center justify-center rounded-full bg-grad-lime text-[0.62rem] font-bold text-bg">
-              R
+          <Link href="/" className="flex items-center gap-3 font-display text-[1.1rem] md:text-[1.25rem]">
+            <span className="relative inline-flex h-9 w-9 items-center justify-center overflow-hidden rounded-full bg-ink text-paper md:h-11 md:w-11">
+              <span className="absolute inset-0 bg-grad-pop opacity-90 mix-blend-soft-light" />
+              <span className="relative font-bold">R</span>
             </span>
-            <span className="hidden sm:inline">
-              ravi<span className="text-lime">.</span>tsunenori
+            <span className="hidden text-ink-900 sm:inline">
+              ravi<span className="text-cobalt">.</span>tsunenori
             </span>
           </Link>
 
-          <nav className="hidden items-center gap-0.5 md:flex">
+          <nav className="hidden items-center gap-1 md:flex">
             {NAV_LINKS.map((l) => {
               const active = pathname === l.href || (l.href !== "/" && pathname.startsWith(l.href));
               return (
@@ -59,10 +63,10 @@ export default function Nav() {
                   key={l.href}
                   href={l.href}
                   className={clsx(
-                    "rounded-full px-3.5 py-2 text-[0.9rem] transition-colors",
+                    "rounded-full px-4 py-3 text-[0.95rem] transition-colors",
                     active
-                      ? "bg-lime text-bg"
-                      : "text-ink-muted hover:bg-white/[0.06] hover:text-ink"
+                      ? "bg-ink text-paper"
+                      : "text-ink-700 hover:bg-ink/10 hover:text-ink-900"
                   )}
                 >
                   {t(l.labelKey)}
@@ -71,7 +75,7 @@ export default function Nav() {
             })}
           </nav>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 md:gap-3">
             <LanguageSwitcher />
             <button
               aria-label={t("nav.menuOpen")}
@@ -80,10 +84,10 @@ export default function Nav() {
                 setMenuOpen(next);
                 document.body.style.overflow = next ? "hidden" : "";
               }}
-              className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-ink text-bg md:hidden"
+              className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-ink text-paper md:hidden"
             >
-              <svg width="16" height="11" viewBox="0 0 18 12" fill="none">
-                <path d="M1 1h16M1 6h16M1 11h10" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+              <svg width="18" height="12" viewBox="0 0 18 12" fill="none">
+                <path d="M1 1h16M1 6h16M1 11h10" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" />
               </svg>
             </button>
           </div>
@@ -96,10 +100,10 @@ export default function Nav() {
             initial={{ opacity: 0, y: -16 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -16 }}
-            transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-[90] flex flex-col bg-bg px-6 pb-10 pt-24 md:hidden"
+            transition={{ duration: 0.32 }}
+            className="fixed inset-0 z-[90] flex flex-col bg-paper px-6 pb-10 pt-28 md:hidden"
           >
-            <div className="mb-10 flex items-center justify-between">
+            <div className="mb-8 flex items-center justify-between">
               <span className="text-eyebrow">{t("nav.langLabel")}</span>
               <LanguageSwitcher />
             </div>
@@ -112,7 +116,7 @@ export default function Nav() {
               >
                 <Link
                   href={l.href}
-                  className="block border-b border-line py-4 font-display text-4xl"
+                  className="block border-b border-line py-5 font-display text-4xl text-ink-900"
                 >
                   {t(l.labelKey)}
                 </Link>

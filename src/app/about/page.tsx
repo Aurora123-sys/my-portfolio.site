@@ -5,6 +5,7 @@ import { useLang } from "@/components/LanguageProvider";
 import { TIMELINE, CERTIFICATIONS } from "@/lib/data";
 import ShaderField from "@/components/ShaderField";
 import LangBar from "@/components/LangBar";
+import Scene3D from "@/components/Scene3D";
 
 export default function AboutPage() {
   const { t } = useLang();
@@ -12,11 +13,11 @@ export default function AboutPage() {
   return (
     <>
       {/* HERO */}
-      <section className="relative overflow-hidden pt-32 pb-16 md:pt-40">
+      <section className="relative overflow-hidden pt-40 pb-16 md:pt-48">
         <div className="pointer-events-none absolute inset-0">
-          <ShaderField className="h-full w-full opacity-50" variant="cyber" />
+          <ShaderField className="absolute inset-0 h-full w-full opacity-25 mix-blend-multiply" variant="cyber" />
+          <div className="absolute inset-0 bg-gradient-to-b from-paper/60 via-paper/40 to-paper" />
         </div>
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-bg/30 via-bg/40 to-bg" />
 
         <div className="container relative">
           <div className="grid items-center gap-12 lg:grid-cols-[1.1fr_1fr] lg:gap-16">
@@ -26,15 +27,13 @@ export default function AboutPage() {
               transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
             >
               <div className="text-eyebrow mb-5">{t("about.eyebrow")}</div>
-              <h1 className="text-balance text-5xl md:text-6xl lg:text-[5.4rem]">
+              <h1 className="text-balance text-5xl text-ink-900 md:text-6xl lg:text-[5.4rem]">
                 {t("about.title.1")}
                 <br />
-                <span className="text-ink">{t("about.title.2")} </span>
-                <span className="italic text-lime">{t("about.title.3")}</span>
+                <span className="text-ink-900">{t("about.title.2")} </span>
+                <span className="italic-display text-cobalt">{t("about.title.3")}</span>
               </h1>
-              <p className="mt-8 max-w-[58ch] text-lg leading-relaxed text-ink-muted">
-                {t("about.lead")}
-              </p>
+              <p className="mt-8 max-w-[58ch] text-lg leading-relaxed text-ink-600">{t("about.lead")}</p>
             </motion.div>
 
             <motion.div
@@ -43,7 +42,7 @@ export default function AboutPage() {
               transition={{ delay: 0.15, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
               className="relative"
             >
-              <div className="relative aspect-[4/5] overflow-hidden rounded-[2rem] bg-bg-card">
+              <div className="border-glow relative aspect-[4/5] overflow-hidden rounded-[2rem]">
                 <Image
                   src="/avatar.png"
                   alt="Portrait"
@@ -51,8 +50,10 @@ export default function AboutPage() {
                   sizes="(min-width: 1024px) 480px, 100vw"
                   className="object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-bg/70 via-transparent to-transparent" />
-                <div className="absolute inset-0 ring-1 ring-inset ring-white/5" />
+                <div className="absolute inset-0">
+                  <Scene3D className="h-full w-full opacity-75 mix-blend-multiply" />
+                </div>
+                <div className="absolute inset-0 bg-gradient-to-t from-paper/40 via-transparent to-transparent" />
               </div>
               <div className="absolute -right-3 top-6 flex flex-col gap-2.5 md:-right-6">
                 <Fact label={t("about.facts.based")} value={t("about.facts.based.value")} />
@@ -75,14 +76,14 @@ export default function AboutPage() {
               transition={{ duration: 0.6 }}
             >
               <div className="text-eyebrow mb-4">{t("about.story.eyebrow")}</div>
-              <h2 className="text-4xl md:text-5xl">{t("about.story.heading")}</h2>
+              <h2 className="text-4xl text-ink-900 md:text-5xl">{t("about.story.heading")}</h2>
             </motion.div>
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.1 }}
-              className="space-y-5 text-lg leading-relaxed text-ink-muted"
+              className="space-y-5 text-lg leading-relaxed text-ink-600"
             >
               <p>{t("about.story.p1")}</p>
               <p>{t("about.story.p2")}</p>
@@ -98,11 +99,11 @@ export default function AboutPage() {
           <div className="mb-12 grid items-end gap-10 md:grid-cols-[1fr_1.4fr] md:gap-16">
             <div>
               <div className="text-eyebrow mb-4">{t("about.journey.eyebrow")}</div>
-              <h2 className="text-4xl md:text-5xl">
-                {t("about.journey.heading.1")} <span className="italic text-lime">{t("about.journey.heading.2")}</span>
+              <h2 className="text-4xl text-ink-900 md:text-5xl">
+                {t("about.journey.heading.1")} <span className="italic-display text-cobalt">{t("about.journey.heading.2")}</span>
               </h2>
             </div>
-            <p className="max-w-[56ch] text-lg leading-relaxed text-ink-muted">{t("about.journey.body")}</p>
+            <p className="max-w-[56ch] text-lg leading-relaxed text-ink-600">{t("about.journey.body")}</p>
           </div>
 
           <ol className="relative border-l border-dashed border-line-strong pl-8">
@@ -116,11 +117,9 @@ export default function AboutPage() {
                 className="relative pb-12 last:pb-0"
               >
                 <span className={`absolute -left-[39px] top-2 block h-3.5 w-3.5 rounded-full ${node.color}`} />
-                <div className="mb-1.5 font-mono text-[0.74rem] uppercase tracking-[0.12em] text-ink-faint">
-                  {node.when}
-                </div>
-                <h3 className="mb-2 text-2xl">{node.title}</h3>
-                <p className="max-w-[60ch] text-ink-muted">{node.desc}</p>
+                <div className="mb-1.5 font-mono text-[0.74rem] uppercase tracking-[0.12em] text-ink-500">{node.when}</div>
+                <h3 className="mb-2 text-2xl text-ink-900">{node.title}</h3>
+                <p className="max-w-[60ch] text-ink-600">{node.desc}</p>
               </motion.li>
             ))}
           </ol>
@@ -133,11 +132,11 @@ export default function AboutPage() {
           <div className="mb-12 grid items-end gap-10 md:grid-cols-[1fr_1.4fr] md:gap-16">
             <div>
               <div className="text-eyebrow mb-4">{t("about.lang.eyebrow")}</div>
-              <h2 className="text-4xl md:text-5xl">
-                {t("about.lang.heading.1")} <span className="italic text-lime">{t("about.lang.heading.2")}</span>
+              <h2 className="text-4xl text-ink-900 md:text-5xl">
+                {t("about.lang.heading.1")} <span className="italic-display text-cobalt">{t("about.lang.heading.2")}</span>
               </h2>
             </div>
-            <p className="max-w-[56ch] text-lg leading-relaxed text-ink-muted">{t("about.lang.body")}</p>
+            <p className="max-w-[56ch] text-lg leading-relaxed text-ink-600">{t("about.lang.body")}</p>
           </div>
 
           <div className="space-y-7">
@@ -155,9 +154,9 @@ export default function AboutPage() {
           <div className="mb-12 grid items-end gap-10 md:grid-cols-[1fr_1.4fr] md:gap-16">
             <div>
               <div className="text-eyebrow mb-4">{t("about.certs.eyebrow")}</div>
-              <h2 className="text-4xl md:text-5xl">{t("about.certs.heading")}</h2>
+              <h2 className="text-4xl text-ink-900 md:text-5xl">{t("about.certs.heading")}</h2>
             </div>
-            <p className="max-w-[56ch] text-lg leading-relaxed text-ink-muted">{t("about.certs.body")}</p>
+            <p className="max-w-[56ch] text-lg leading-relaxed text-ink-600">{t("about.certs.body")}</p>
           </div>
 
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -168,13 +167,11 @@ export default function AboutPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: (i % 3) * 0.08, duration: 0.5 }}
-                className="cert-card group rounded-3xl border border-line bg-bg-surface p-6 transition-all duration-300 hover:-translate-y-1 hover:border-lime/30 hover:shadow-glow"
+                className="cert-card group rounded-3xl border border-line bg-white p-6 shadow-bento transition-all duration-300 hover:-translate-y-1 hover:border-cobalt/40"
               >
-                <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-grad-lime font-mono text-xs font-bold text-bg">
-                  {c.mark}
-                </div>
-                <h4 className="mb-3 font-display text-[1.05rem] leading-snug">{c.title}</h4>
-                <div className="flex justify-between font-mono text-xs text-ink-faint">
+                <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-grad-pop font-mono text-xs font-bold text-ink-900">{c.mark}</div>
+                <h4 className="mb-3 font-display text-[1.05rem] leading-snug text-ink-900">{c.title}</h4>
+                <div className="flex justify-between font-mono text-xs text-ink-500">
                   <span>{c.org}</span>
                   <span>{c.year}</span>
                 </div>
@@ -189,11 +186,9 @@ export default function AboutPage() {
 
 function Fact({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-2xl border border-line bg-bg-surface/90 px-4 py-3 font-mono text-xs shadow-card backdrop-blur-md">
-      <span className="text-ink-faint">{label}</span>
-      <strong className="mt-0.5 block font-display text-base font-normal tracking-tight text-ink">
-        {value}
-      </strong>
+    <div className="rounded-2xl border border-line bg-white/95 px-4 py-3 font-mono text-xs shadow-bento backdrop-blur-md">
+      <span className="text-ink-500">{label}</span>
+      <strong className="mt-0.5 block font-display text-base font-normal tracking-tight text-ink-900">{value}</strong>
     </div>
   );
 }
